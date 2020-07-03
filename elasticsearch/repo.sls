@@ -8,11 +8,11 @@ apt-transport-https:
 elasticsearch_repo:
   pkgrepo.managed:
     - humanname: Elasticsearch {{ elasticsearch.major_version }}
-    - name: deb https://artifacts.co/packages/7.x/apt stable main
+    - name: deb https://artifacts.elastic.co/packages/7.x/apt stable main
     - dist: stable
     - file: /etc/apt/sources.list.d/elastic-7.x.list
-    - keyid: D88E42B4
-    - keyserver: keyserver.ubuntu.com
+#    - keyid: D88E42B4
+ #   - keyserver: keyserver.ubuntu.com
     - clean_file: true
     - enabled: 1
     - gpgcheck: 1

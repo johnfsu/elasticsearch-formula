@@ -1,10 +1,8 @@
 {% from "elasticsearch/settings.sls" import elasticsearch with context %}
 
-{%- if elasticsearch.major_version >= 5 %}
-  {%- set repo_url = 'https://artifacts.elastic.co/packages/' ~ (elasticsearch.major_version|string) ~ '.x' %}
-{%- else %}
-  {%- set repo_url = 'http://packages.elastic.co/elasticsearch/2.x' %}
-{%- endif %}
+
+{%- set repo_url = 'https://artifacts.elastic.co/packages/' ~ (elasticsearch.major_version|string) ~ '.x' %}
+
 
 {%- if elasticsearch.major_version >= 5 and grains['os_family'] == 'Debian' %}
 apt-transport-https:
@@ -34,5 +32,5 @@ elasticsearch_repo:
   {%- endif %}
     - enabled: 1
     - gpgcheck: 1
-    - gpgkey: http://artifacts.elastic.co/GPG-KEY-elasticsearch
+    - gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
 {%- endif %}

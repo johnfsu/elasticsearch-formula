@@ -1,9 +1,5 @@
 {% from "elasticsearch/settings.sls" import elasticsearch with context %}
 
-
-{%- set repo_url = 'https://artifacts.elastic.co/packages/' ~ (elasticsearch.major_version|string) ~ '.x' %}
-
-
 {%- if elasticsearch.major_version >= 5 and grains['os_family'] == 'Debian' %}
 apt-transport-https:
   pkg.installed
@@ -12,25 +8,12 @@ apt-transport-https:
 elasticsearch_repo:
   pkgrepo.managed:
     - humanname: Elasticsearch {{ elasticsearch.major_version }}
-{%- if grains.get('os_family') == 'Debian' %}
-  {%- if elasticsearch.major_version >= 5 %}
-    - name: deb {{ repo_url }}/apt stable main
-  {%- else %}
-    - name: deb {{ repo_url }}/debian stable main
-  {%- endif %}
+    - name: deb https://artifacts.co/packages/7.x/apt stable main
     - dist: stable
-    - file: /etc/apt/sources.list.d/elasticsearch.list
+    - file: /etc/apt/sources.list.d/elastic-7.x.list
     - keyid: D88E42B4
     - keyserver: keyserver.ubuntu.com
     - clean_file: true
-{%- elif grains['os_family'] == 'RedHat' %}
-    - name: elasticsearch
-  {%- if elasticsearch.major_version >= 5 %}
-    - baseurl: {{ repo_url }}/yum
-  {%- else %}
-    - baseurl: {{ repo_url }}/centos
-  {%- endif %}
     - enabled: 1
     - gpgcheck: 1
     - gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
-{%- endif %}
